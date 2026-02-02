@@ -47,9 +47,9 @@ A professional, browser-only certificate generator for creating high-quality cer
 
 ## 🔗 Links
 
-**🌐 Live Demo:** [[YOUR_DEMO_URL_HERE](https://krishna7805.github.io/certforge/)]  
-**📁 GitHub:** [[YOUR_GITHUB_URL_HERE](https://github.com/krishna7805/certforge)]  
-**📧 Support:** [bardemohan08@gmail.com]
+**🌐 Live Demo:** [Click Here!](https://krishna7805.github.io/certforge/)  
+**📁 GitHub:** [Github Profile!](https://github.com/krishna7805/certforge)  
+**📧 Contact:** [Mail Me!](mailto:bardemohan08@gmail.com) 
 
 ## 🎯 Perfect For
 
