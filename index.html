@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Generator</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <div class="panel-section">
+                <h3>Template Upload</h3>
+                <input type="file" id="templateUpload" accept="image/png,image/jpeg" class="file-input">
+                <div id="templatePreview" class="template-preview hidden"></div>
+            </div>
+            
+            <div class="panel-section">
+                <h3>Participant Names</h3>
+                <textarea id="nameInput" placeholder="Enter participant names, one per line" rows="8"></textarea>
+                <div class="name-count">Names: <span id="nameCount">0</span></div>
+            </div>
+            
+            <div class="panel-section">
+                <button id="generateButton" class="btn btn-primary" disabled>Generate Preview</button>
+                <button id="exportPngButton" class="btn btn-secondary" disabled>Export PNG</button>
+                <button id="exportPdfButton" class="btn btn-secondary" disabled>Export PDF</button>
+                <button id="exportAllButton" class="btn btn-success" disabled>Export All (ZIP)</button>
+            </div>
+        </div>
+
+        <!-- Center Canvas -->
+        <div class="canvas-container">
+            <div id="canvasWrapper">
+                <canvas id="previewCanvas"></canvas>
+                <div id="textOverlay" class="text-overlay"></div>
+            </div>
+            <div class="canvas-controls">
+                <button id="prevName" class="btn btn-small" disabled>← Previous</button>
+                <span id="currentNameDisplay">No names loaded</span>
+                <button id="nextName" class="btn btn-small" disabled>Next →</button>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="panel-section">
+                <h3>Text Styling</h3>
+                
+                <div class="control-group">
+                    <label for="fontFamily">Font Family</label>
+                    <select id="fontFamily">
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Impact">Impact</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="fontSize">Font Size: <span id="fontSizeValue">36</span>px</label>
+                    <input type="range" id="fontSize" min="12" max="120" value="36">
+                </div>
+
+                <div class="control-group">
+                    <label for="fontWeight">Font Weight</label>
+                    <select id="fontWeight">
+                        <option value="400">Regular</option>
+                        <option value="600">Semi-Bold</option>
+                        <option value="700">Bold</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="textColor">Text Color</label>
+                    <input type="color" id="textColor" value="#000000">
+                </div>
+
+                <div class="control-group">
+                    <label for="letterSpacing">Letter Spacing: <span id="letterSpacingValue">0</span>px</label>
+                    <input type="range" id="letterSpacing" min="-2" max="10" value="0" step="0.5">
+                </div>
+
+                <div class="control-group">
+                    <label for="textOpacity">Opacity: <span id="textOpacityValue">100</span>%</label>
+                    <input type="range" id="textOpacity" min="0" max="100" value="100">
+                </div>
+
+                <div class="control-group">
+                    <label>Text Alignment</label>
+                    <div class="alignment-buttons">
+                        <button class="align-btn" data-align="left">Left</button>
+                        <button class="align-btn active" data-align="center">Center</button>
+                        <button class="align-btn" data-align="right">Right</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h3>Position</h3>
+                <button id="centerText" class="btn btn-secondary">Center Text</button>
+                <div class="position-info">
+                    <small>X: <span id="textX">0</span>, Y: <span id="textY">0</span></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Export Canvas -->
+    <canvas id="exportCanvas" style="display: none;"></canvas>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="src/js/app.js"></script>
+</body>
+</html>
