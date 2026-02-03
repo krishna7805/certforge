@@ -69,12 +69,13 @@ window.onload = initUI;
 class CertificateGenerator {
     constructor() {
         this.template = null;
+        this.templatePosition = { x: 0, y: 0 }; // Add this line
         this.names = [];
         this.currentNameIndex = 0;
         this.textPosition = { x: 0, y: 0 };
         this.textStyle = {
-            fontFamily: 'Arial',
-            fontSize: 36,
+            fontFamily: 'Playfair Display',
+            fontSize: 48,
             fontWeight: '400',
             color: '#000000',
             letterSpacing: 0,
@@ -83,9 +84,11 @@ class CertificateGenerator {
         };
         
         this.isDragging = false;
+        this.isDraggingTemplate = false;
         this.dragOffset = { x: 0, y: 0 };
         this.scale = 1;
-        
+        this.fileNamePrefix = 'Certificate';
+
         this.previewCanvas = null;
         this.exportCanvas = null;
         this.previewCtx = null;
@@ -94,13 +97,21 @@ class CertificateGenerator {
         this.init();
     }
 
-    init() {
+    async init() {
+        await this.waitForFonts();
         this.setupCanvases();
         this.setupEventListeners();
         this.updateNameCount();
         this.updateUI();
     }
-
+    async waitForFonts() {
+        try {
+            await document.fonts.ready;
+            console.log('All fonts loaded successfully');
+        } catch (error) {
+            console.warn('Some fonts may not have loaded:', error);
+        }
+    }
     setupCanvases() {
         this.previewCanvas = document.getElementById('previewCanvas');
         this.exportCanvas = document.getElementById('exportCanvas');
@@ -132,11 +143,20 @@ class CertificateGenerator {
             this.navigateName(1);
         });
 
+            // File name prefix input
+    document.getElementById('fileNamePrefix').addEventListener('input', (e) => {
+        this.fileNamePrefix = e.target.value || 'Certificate';
+    });
+
         // Text styling controls
         document.getElementById('fontFamily').addEventListener('change', (e) => {
             this.textStyle.fontFamily = e.target.value;
-            this.redraw();
+            // Force font load before redrawing
+            document.fonts.load(`${this.textStyle.fontWeight} ${this.textStyle.fontSize}px "${this.textStyle.fontFamily}"`).then(() => {
+                this.redraw();
+            });
         });
+
 
         document.getElementById('fontSize').addEventListener('input', (e) => {
             this.textStyle.fontSize = parseInt(e.target.value);
@@ -311,27 +331,48 @@ class CertificateGenerator {
             this.dragOffset.x = x - this.textPosition.x;
             this.dragOffset.y = y - this.textPosition.y;
             this.previewCanvas.style.cursor = 'grabbing';
+            return;
+        }
+        if (this.template && this.isPointOnTemplate(x, y)) {
+            this.isDraggingTemplate = true;
+            this.dragOffset.x = x - this.templatePosition.x;
+            this.dragOffset.y = y - this.templatePosition.y;
+            this.previewCanvas.style.cursor = 'grabbing';
         }
     }
 
     handleMouseMove(event) {
-        if (!this.isDragging) return;
-        
         const rect = this.previewCanvas.getBoundingClientRect();
         const x = (event.clientX - rect.left) / this.scale;
         const y = (event.clientY - rect.top) / this.scale;
         
-        this.textPosition.x = x - this.dragOffset.x;
-        this.textPosition.y = y - this.dragOffset.y;
-        
-        this.updatePositionDisplay();
-        this.redraw();
+        if (this.isDragging) {
+            this.textPosition.x = x - this.dragOffset.x;
+            this.textPosition.y = y - this.dragOffset.y;
+            this.updatePositionDisplay();
+            this.redraw();
+        } else if (this.isDraggingTemplate) {
+            this.templatePosition.x = x - this.dragOffset.x;
+            this.templatePosition.y = y - this.dragOffset.y;
+            this.redraw();
+        }
     }
 
     handleMouseUp() {
         this.isDragging = false;
+        this.isDraggingTemplate = false;
         this.previewCanvas.style.cursor = 'grab';
     }
+    
+
+isPointOnTemplate(x, y) {
+    if (!this.template) return false;
+    
+    return x >= this.templatePosition.x && 
+           x <= this.templatePosition.x + this.template.width && 
+           y >= this.templatePosition.y && 
+           y <= this.templatePosition.y + this.template.height;
+}
 
     isPointNearText(x, y, textMetrics) {
         const margin = 20;
@@ -367,13 +408,20 @@ class CertificateGenerator {
         if (!this.template) return;
         
         this.previewCtx.clearRect(0, 0, this.previewCanvas.width, this.previewCanvas.height);
-        this.previewCtx.drawImage(this.template, 0, 0);
+        
+        // Draw template at its position
+        this.previewCtx.drawImage(
+            this.template, 
+            this.templatePosition.x, 
+            this.templatePosition.y,
+            this.template.width,
+            this.template.height
+        );
         
         if (this.names.length > 0) {
             this.drawText(this.previewCtx, this.names[this.currentNameIndex], 1);
         }
     }
-
     drawText(ctx, text, scale = 1) {
         const fontSize = this.textStyle.fontSize * scale;
         const letterSpacing = this.textStyle.letterSpacing * scale;
@@ -443,16 +491,16 @@ class CertificateGenerator {
         if (!this.template || this.names.length === 0) return;
         
         const name = this.names[this.currentNameIndex];
-        // Use original dimensions for PDF to keep file size reasonable
+        // Use original dimensions for PDF
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = this.template.width;
         canvas.height = this.template.height;
         
         ctx.drawImage(this.template, 0, 0);
-        this.drawText(ctx, name, 1); // Use 1x scale for PDF
+        this.drawText(ctx, name, 1);
         
-        const dataURL = canvas.toDataURL('image/jpeg', 0.85); // Use JPEG with compression
+        const dataURL = canvas.toDataURL('image/jpeg', 1);
         
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({
@@ -462,7 +510,7 @@ class CertificateGenerator {
         });
         
         pdf.addImage(dataURL, 'JPEG', 0, 0, this.template.width, this.template.height);
-        pdf.save(`Certificate_${name}.pdf`);
+        pdf.save(`${this.fileNamePrefix}_${name}.pdf`);
     }
 
     async exportAll() {
@@ -510,9 +558,13 @@ class CertificateGenerator {
     }
 
     downloadImage(dataURL, filename) {
+        const name = filename.split('_')[1].split('.')[0]; // Extract name from filename
+        const extension = filename.split('.').pop();
+        const customFilename = `${this.fileNamePrefix}_${name}.${extension}`;
+        
         const a = document.createElement('a');
         a.href = dataURL;
-        a.download = filename;
+        a.download = customFilename;
         a.click();
     }
 

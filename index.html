@@ -3,112 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate Generator</title>
+    <title>CertForge - Professional Certificate Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Great+Vibes&family=Dancing+Script:wght@400;600;700&family=Merriweather:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&family=Alex+Brush&family=Allura&family=Libre+Baskerville:wght@400;700&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Left Panel -->
-        <div class="left-panel">
-            <div class="panel-section">
-                <h3>Template Upload</h3>
-                <input type="file" id="templateUpload" accept="image/png,image/jpeg" class="file-input">
-                <div id="templatePreview" class="template-preview hidden"></div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon"></span>
+                <span class="brand-text">CertForge</span>
             </div>
-            
-            <div class="panel-section">
-                <h3>Participant Names</h3>
-                <textarea id="nameInput" placeholder="Enter participant names, one per line" rows="8"></textarea>
-                <div class="name-count">Names: <span id="nameCount">0</span></div>
-            </div>
-            
-            <div class="panel-section">
-                <button id="generateButton" class="btn btn-primary" disabled>Generate Preview</button>
-                <button id="exportPngButton" class="btn btn-secondary" disabled>Export PNG</button>
-                <button id="exportPdfButton" class="btn btn-secondary" disabled>Export PDF</button>
-                <button id="exportAllButton" class="btn btn-success" disabled>Export All (ZIP)</button>
+            <div class="nav-links">
+                <a href="#" class="nav-link">How to Use</a>
+                <a href="https://github.com/krishna7805/certforge" class="nav-link" target="_blank">GitHub</a>
+                <a href="mailto:bardemohan08@gmail.com" class="nav-link contact-btn">Contact</a>
             </div>
         </div>
+    </nav>
 
-        <!-- Center Canvas -->
-        <div class="canvas-container">
-            <div id="canvasWrapper">
-                <canvas id="previewCanvas"></canvas>
-                <div id="textOverlay" class="text-overlay"></div>
-            </div>
-            <div class="canvas-controls">
-                <button id="prevName" class="btn btn-small" disabled>← Previous</button>
-                <span id="currentNameDisplay">No names loaded</span>
-                <button id="nextName" class="btn btn-small" disabled>Next →</button>
-            </div>
-        </div>
-
-        <!-- Right Panel -->
-        <div class="right-panel">
-            <div class="panel-section">
-                <h3>Text Styling</h3>
+    <div class="main-content">
+        <div class="container">
+            <!-- Left Panel -->
+            <div class="left-panel">
+                <!-- Your existing left panel content -->
+                <div class="panel-section">
+                    <h3>Template Upload</h3>
+                    <input type="file" id="templateUpload" accept="image/png,image/jpeg" class="file-input">
+                    <div id="templatePreview" class="template-preview hidden"></div>
+                </div>
                 
-                <div class="control-group">
-                    <label for="fontFamily">Font Family</label>
-                    <select id="fontFamily">
-                        <option value="Arial">Arial</option>
-                        <option value="Times New Roman">Times New Roman</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Helvetica">Helvetica</option>
-                        <option value="Verdana">Verdana</option>
-                        <option value="Courier New">Courier New</option>
-                        <option value="Impact">Impact</option>
-                    </select>
+                <div class="panel-section">
+                    <h3>Participant Names</h3>
+                    <textarea id="nameInput" placeholder="Enter participant names, one per line" rows="8"></textarea>
+                    <div class="name-count">Names: <span id="nameCount">0</span></div>
                 </div>
-
-                <div class="control-group">
-                    <label for="fontSize">Font Size: <span id="fontSizeValue">36</span>px</label>
-                    <input type="range" id="fontSize" min="12" max="120" value="36">
+                
+                <div class="panel-section">
+                    <button id="generateButton" class="btn btn-primary" disabled>Generate Preview</button>
+                    <button id="exportPngButton" class="btn btn-secondary" disabled>Export PNG</button>
+                    <button id="exportPdfButton" class="btn btn-secondary" disabled>Export PDF</button>
+                    <button id="exportAllButton" class="btn btn-success" disabled>Export All (ZIP)</button>
                 </div>
+            </div>
 
-                <div class="control-group">
-                    <label for="fontWeight">Font Weight</label>
-                    <select id="fontWeight">
-                        <option value="400">Regular</option>
-                        <option value="600">Semi-Bold</option>
-                        <option value="700">Bold</option>
-                    </select>
+            <!-- Center Canvas -->
+            <div class="canvas-container">
+                <div id="canvasWrapper">
+                    <canvas id="previewCanvas"></canvas>
+                    <div id="textOverlay" class="text-overlay"></div>
                 </div>
-
-                <div class="control-group">
-                    <label for="textColor">Text Color</label>
-                    <input type="color" id="textColor" value="#000000">
+                <div class="canvas-controls">
+                    <button id="prevName" class="btn btn-small" disabled>← Previous</button>
+                    <span id="currentNameDisplay">No names loaded</span>
+                    <button id="nextName" class="btn btn-small" disabled>Next →</button>
                 </div>
+            </div>
 
-                <div class="control-group">
-                    <label for="letterSpacing">Letter Spacing: <span id="letterSpacingValue">0</span>px</label>
-                    <input type="range" id="letterSpacing" min="-2" max="10" value="0" step="0.5">
-                </div>
+            <!-- Right Panel -->
+            <div class="right-panel">
+                <!-- Your existing right panel content with the new font dropdown -->
+                <div class="panel-section">
+                    <h3>Text Styling</h3>
+                    
+                    <div class="control-group">
+                        <label for="fontFamily">Font Family</label>
+                        <select id="fontFamily">
+                            <optgroup label="Elegant Serif">
+                                <option value="Playfair Display">Playfair Display</option>
+                                <option value="Cinzel">Cinzel</option>
+                                <option value="Cormorant Garamond">Cormorant Garamond</option>
+                                <option value="Merriweather">Merriweather</option>
+                                <option value="Libre Baskerville">Libre Baskerville</option>
+                                <option value="Crimson Text">Crimson Text</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Georgia">Georgia</option>
+                            </optgroup>
+                            <optgroup label="Script & Calligraphy">
+                                <option value="Great Vibes">Great Vibes</option>
+                                <option value="Alex Brush">Alex Brush</option>
+                                <option value="Allura">Allura</option>
+                                <option value="Dancing Script">Dancing Script</option>
+                            </optgroup>
+                            <optgroup label="Clean Sans-Serif">
+                                <option value="Arial">Arial</option>
+                                <option value="Helvetica">Helvetica</option>
+                                <option value="Verdana">Verdana</option>
+                            </optgroup>
+                            <optgroup label="Monospace">
+                                <option value="Courier New">Courier New</option>
+                            </optgroup>
+                            <optgroup label="Display">
+                                <option value="Impact">Impact</option>
+                            </optgroup>
+                        </select>
+                    </div>
 
-                <div class="control-group">
-                    <label for="textOpacity">Opacity: <span id="textOpacityValue">100</span>%</label>
-                    <input type="range" id="textOpacity" min="0" max="100" value="100">
-                </div>
+                    <div class="control-group">
+                        <label for="fontSize">Font Size: <span id="fontSizeValue">36</span>px</label>
+                        <input type="range" id="fontSize" min="12" max="120" value="36">
+                    </div>
 
-                <div class="control-group">
-                    <label>Text Alignment</label>
-                    <div class="alignment-buttons">
-                        <button class="align-btn" data-align="left">Left</button>
-                        <button class="align-btn active" data-align="center">Center</button>
-                        <button class="align-btn" data-align="right">Right</button>
+                    <div class="control-group">
+                        <label for="fontWeight">Font Weight</label>
+                        <select id="fontWeight">
+                            <option value="400">Regular</option>
+                            <option value="600">Semi-Bold</option>
+                            <option value="700">Bold</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="textColor">Text Color</label>
+                        <input type="color" id="textColor" value="#000000">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="letterSpacing">Letter Spacing: <span id="letterSpacingValue">0</span>px</label>
+                        <input type="range" id="letterSpacing" min="-2" max="10" value="0" step="0.5">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="textOpacity">Opacity: <span id="textOpacityValue">100</span>%</label>
+                        <input type="range" id="textOpacity" min="0" max="100" value="100">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Text Alignment</label>
+                        <div class="alignment-buttons">
+                            <button class="align-btn" data-align="left">Left</button>
+                            <button class="align-btn active" data-align="center">Center</button>
+                            <button class="align-btn" data-align="right">Right</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="panel-section">
-                <h3>Position</h3>
-                <button id="centerText" class="btn btn-secondary">Center Text</button>
-                <div class="position-info">
-                    <small>X: <span id="textX">0</span>, Y: <span id="textY">0</span></small>
+                <div class="panel-section">
+                    <h3>Position</h3>
+                    <button id="centerText" class="btn btn-secondary">Center Text</button>
+                    <div class="position-info">
+                        <small>X: <span id="textX">0</span>, Y: <span id="textY">0</span></small>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>File Settings</h3>
+                    <div class="control-group">
+                        <label for="fileNamePrefix">File Name Prefix</label>
+                        <input type="text" id="fileNamePrefix" value="Certificate" placeholder="Certificate">
+                        <small>Files will be named as: [Prefix]_[Name].png</small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <span class="footer-brand">CertForge</span>
+                <span class="footer-text">Bulk certificate generation made simple</span>
+            </div>
+            <div class="footer-right">
+                <span class="footer-text">Built with ❤️ by <a href="mailto:bardemohan08@gmail.com" class="footer-link">Krishna</a></span>
+            </div>
+        </div>
+    </footer>
 
     <!-- Hidden Export Canvas -->
     <canvas id="exportCanvas" style="display: none;"></canvas>
