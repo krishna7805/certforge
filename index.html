@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CertForge - Professional Certificate Generator</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>CertForge - Professional Bulk Certificate Generator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Great+Vibes&family=Dancing+Script:wght@400;600;700&family=Merriweather:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&family=Alex+Brush&family=Allura&family=Libre+Baskerville:wght@400;700&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
@@ -21,9 +24,37 @@
                 <a href="#" class="nav-link">How to Use</a>
                 <a href="https://github.com/krishna7805/certforge" class="nav-link" target="_blank">GitHub</a>
                 <a href="mailto:bardemohan08@gmail.com" class="nav-link contact-btn">Contact</a>
+                <!-- modify this -->
             </div>
         </div>
     </nav>
+
+    <div id="howToUseModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>How to Use CertForge</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="step">
+                    <h3>📄 Step 1: Upload Template</h3>
+                    <p>Click "Choose File" and select your certificate template (PNG/JPG)</p>
+                </div>
+                <div class="step">
+                    <h3>👥 Step 2: Add Names</h3>
+                    <p>Enter participant names in the textarea (one per line)</p>
+                </div>
+                <div class="step">
+                    <h3>🎨 Step 3: Style & Position</h3>
+                    <p>Drag text to position it, use right panel to style font, color, size</p>
+                </div>
+                <div class="step">
+                    <h3>💾 Step 4: Export</h3>
+                    <p>Export single certificates or bulk download all as ZIP</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="main-content">
         <div class="container">

@@ -1,7 +1,7 @@
 
-# 🏆 Certificate Generator
+# # Certificate Generator
 
-A professional, browser-only certificate generator for creating high-quality certificates with zero coding. Upload a template, add names, style text, and export in bulk.
+A professional, browser-only(Web-Based) Bulk certificate generator for creating high-quality certificates with zero coding. Upload a template, add names, style text, and export in bulk.
 
 ## 🚀 Try It Now
 **[👉 Live Demo - Try Here!](https://krishna7805.github.io/certforge/)**

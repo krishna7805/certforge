@@ -574,3 +574,102 @@ input[type="text"]:focus {
     color: #64748b;
     font-style: italic;
 }
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+        height: auto;
+        min-height: calc(100vh - 120px);
+    }
+    
+    .canvas-container {
+        order: 1;
+        padding: 16px;
+        min-height: 50vh;
+        touch-action: none; /* Prevents scrolling during drag */
+    }
+    
+    .left-panel {
+        order: 0;
+        padding: 16px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    .right-panel {
+        order: 2;
+        padding: 16px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    #canvasWrapper {
+        max-width: 100%;
+        max-height: 400px;
+        margin: 0 auto;
+    }
+    
+    #previewCanvas {
+        touch-action: none; /* Essential for mobile drag */
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Mobile-friendly control buttons */
+    .canvas-controls {
+        margin-top: 12px;
+        gap: 12px;
+    }
+    
+    .canvas-controls button {
+        padding: 12px 16px; /* Larger touch targets */
+        font-size: 14px;
+    }
+    
+    #currentNameDisplay {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+/* Touch-friendly improvements */
+.canvas-container {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#previewCanvas {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Improve button touch targets on mobile */
+@media (max-width: 768px) {
+    .btn {
+        min-height: 44px; /* Apple's recommended touch target size */
+        font-size: 16px; /* Prevents iOS zoom */
+    }
+    
+    .btn-small {
+        min-height: 40px;
+        padding: 10px 16px;
+    }
+    
+    .align-btn {
+        min-height: 44px;
+        padding: 12px;
+    }
+    
+    input[type="range"] {
+        min-height: 44px;
+    }
+    
+    select, input[type="text"], input[type="color"] {
+        min-height: 44px;
+        font-size: 16px; /* Prevents iOS zoom */
+    }
+}

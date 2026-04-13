@@ -373,14 +373,63 @@ isPointOnTemplate(x, y) {
            y >= this.templatePosition.y && 
            y <= this.templatePosition.y + this.template.height;
 }
-
-    isPointNearText(x, y, textMetrics) {
-        const margin = 20;
-        return x >= textMetrics.left - margin && 
-               x <= textMetrics.right + margin && 
-               y >= textMetrics.top - margin && 
-               y <= textMetrics.bottom + margin;
+handlePointerStart(event) {
+    const rect = this.previewCanvas.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / this.scale;
+    const y = (event.clientY - rect.top) / this.scale;
+    
+    // Check if click/touch is near text first
+    const textMetrics = this.getTextMetrics();
+    if (textMetrics && this.isPointNearText(x, y, textMetrics)) {
+        this.isDragging = true;
+        this.dragOffset.x = x - this.textPosition.x;
+        this.dragOffset.y = y - this.textPosition.y;
+        this.previewCanvas.style.cursor = 'grabbing';
+        return;
     }
+    
+    // Check if click/touch is on template image
+    if (this.template && this.isPointOnTemplate(x, y)) {
+        this.isDraggingTemplate = true;
+        this.dragOffset.x = x - this.templatePosition.x;
+        this.dragOffset.y = y - this.templatePosition.y;
+        this.previewCanvas.style.cursor = 'grabbing';
+    }
+}
+
+handlePointerMove(event) {
+    const rect = this.previewCanvas.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / this.scale;
+    const y = (event.clientY - rect.top) / this.scale;
+    
+    if (this.isDragging) {
+        this.textPosition.x = x - this.dragOffset.x;
+        this.textPosition.y = y - this.dragOffset.y;
+        this.updatePositionDisplay();
+        this.redraw();
+    } else if (this.isDraggingTemplate) {
+        this.templatePosition.x = x - this.dragOffset.x;
+        this.templatePosition.y = y - this.dragOffset.y;
+        this.redraw();
+    }
+}
+
+handlePointerEnd() {
+    this.isDragging = false;
+    this.isDraggingTemplate = false;
+    this.previewCanvas.style.cursor = 'grab';
+}
+
+isPointNearText(x, y, textMetrics) {
+    // Larger margin for mobile touch targets
+    const isMobile = window.innerWidth <= 768;
+    const margin = isMobile ? 40 : 20;
+    
+    return x >= textMetrics.left - margin && 
+           x <= textMetrics.right + margin && 
+           y >= textMetrics.top - margin && 
+           y <= textMetrics.bottom + margin;
+}
 
     getTextMetrics() {
         if (!this.template || this.names.length === 0) return null;
