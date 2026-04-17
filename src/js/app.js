@@ -124,7 +124,32 @@ class CertificateGenerator {
     }
 
     setupEventListeners() {
+        // Modal functionality
+        const howToUseBtn = document.getElementById('howToUseBtn');
+        const howToUseModal = document.getElementById('howToUseModal');
+        const closeModal = document.getElementById('closeModal');
+
+        if (howToUseBtn && howToUseModal && closeModal) {
+            // Open modal
+            howToUseBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                howToUseModal.classList.remove('hidden');
+            });
+
+            // Close modal (X button)
+            closeModal.addEventListener('click', () => {
+                howToUseModal.classList.add('hidden');
+            });
+
+            // Close modal when clicking outside the box
+            howToUseModal.addEventListener('click', (e) => {
+                if (e.target === howToUseModal) {
+                    howToUseModal.classList.add('hidden');
+                }
+            });
+        }
         // Template upload
+
         document.getElementById('templateUpload').addEventListener('change', (e) => {
             this.handleTemplateUpload(e);
         });
